@@ -45,6 +45,9 @@ to be copied once, and we can enforce this in Rust, but if Objective-C code
 were to copy it twice we could have a double free.
 */
 
+#[cfg(feature = "objc")]
+extern crate objc;
+
 #[cfg(test)]
 mod test_utils;
 
@@ -55,6 +58,9 @@ use std::os::raw::{c_int, c_ulong, c_void};
 use std::ptr;
 
 enum Class { }
+
+#[cfg(feature = "objc")]
+use objc::{Encode, Encoding};
 
 #[cfg_attr(any(target_os = "macos", target_os = "ios"),
            link(name = "System", kind = "dylib"))]
@@ -186,6 +192,16 @@ impl<A, R> Drop for RcBlock<A, R> {
             _Block_release(self.ptr as *const c_void);
         }
     }
+}
+
+#[cfg(feature = "objc")]
+unsafe impl<'a, A, R> Encode for &'a Block<A, R> {
+    fn encode() -> Encoding { unsafe { Encoding::from_str("@?") } }
+}
+
+#[cfg(feature = "objc")]
+unsafe impl<'a, A, R> Encode for &'a mut Block<A, R> {
+    fn encode() -> Encoding { unsafe { Encoding::from_str("@?") } }
 }
 
 /// Types that may be converted into a `ConcreteBlock`.

@@ -5,6 +5,11 @@ On macOS and iOS, blocks use the system runtime. Other platforms use
 to use the blocks runtime provided by GNUstep's `libobjc2` instead; this
 requires a GNUstep runtime with blocks support, not GCC's `libobjc`.
 
+The optional `objc` feature provides the Objective-C `@?` encoding for
+`&Block` and `&mut Block` through `objc` 0.2.7. Rust's orphan rules prevent
+the older experimental implementations for raw pointers and `Option` of
+block references; those implementations remain in the merged history.
+
 For more information on the specifics of the block implementation, see
 Clang's documentation: http://clang.llvm.org/docs/Block-ABI-Apple.html
 
