@@ -1,5 +1,10 @@
 Rust interface for Apple's C language extension of blocks.
 
+On macOS and iOS, blocks use the system runtime. Other platforms use
+`libBlocksRuntime` by default. Enable the `gnustep_runtime` Cargo feature
+to use the blocks runtime provided by GNUstep's `libobjc2` instead; this
+requires a GNUstep runtime with blocks support, not GCC's `libobjc`.
+
 For more information on the specifics of the block implementation, see
 Clang's documentation: http://clang.llvm.org/docs/Block-ABI-Apple.html
 

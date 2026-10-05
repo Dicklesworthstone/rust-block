@@ -58,8 +58,12 @@ enum Class { }
 
 #[cfg_attr(any(target_os = "macos", target_os = "ios"),
            link(name = "System", kind = "dylib"))]
-#[cfg_attr(not(any(target_os = "macos", target_os = "ios")),
+#[cfg_attr(all(not(any(target_os = "macos", target_os = "ios")),
+               not(feature = "gnustep_runtime")),
            link(name = "BlocksRuntime", kind = "dylib"))]
+#[cfg_attr(all(not(any(target_os = "macos", target_os = "ios")),
+               feature = "gnustep_runtime"),
+           link(name = "objc", kind = "dylib"))]
 extern {
     // Only this symbol's address is part of the Blocks ABI. Declaring its
     // storage as the opaque, uninhabited `Class` type makes the extern static

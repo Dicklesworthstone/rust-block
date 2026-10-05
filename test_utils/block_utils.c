@@ -1,5 +1,10 @@
 #include <stdint.h>
+
+#if __has_include(<Block.h>)
 #include <Block.h>
+#elif __has_include(<objc/blocks_runtime.h>)
+#include <objc/blocks_runtime.h>
+#endif
 
 typedef int32_t (^IntBlock)();
 typedef int32_t (^AddBlock)(int32_t);
